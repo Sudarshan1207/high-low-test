@@ -43,6 +43,7 @@
         try {
           const res = await fetch(url);
           const data = await res.json();
+          console.log('Fetched data:', data);
           const result = data.chart?.result?.[0];
           if (!result) return null;
           const candles = result.indicators.quote[0];
