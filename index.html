@@ -39,26 +39,26 @@
       ];
 
       async function getYesterdayHighLow(symbol) {
-        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=5d`;
-        try {
-          const res = await fetch(url);
-          const data = await res.json();
-          console.log('Fetched data:', data);
-          const result = data.chart?.result?.[0];
-          if (!result) return null;
-          const candles = result.indicators.quote[0];
-          const timestamps = result.timestamp;
-          if (!candles.high || candles.high.length < 2) return null;
-          const idx = candles.high.length - 2; // yesterday
-          return {
-            stock: symbol.replace('.NS', ''),
-            low: candles.low[idx],
-            high: candles.high[idx]
-          };
-        } catch (err) {
-          return null;
-        }
-      }
+  const url = `https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=5d`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log('Fetched data:', data);
+    const result = data.chart?.result?.[0];
+    if (!result) return null;
+    const candles = result.indicators.quote[0];
+    const timestamps = result.timestamp;
+    if (!candles.high || candles.high.length < 2) return null;
+    const idx = candles.high.length - 2; // yesterday
+    return {
+      stock: symbol.replace('.NS', ''),
+      low: candles.low[idx],
+      high: candles.high[idx]
+    };
+  } catch (err) {
+    return null;
+  }
+}
 
       async function fillTable() {
         const tbody = document.getElementById('table-body');
